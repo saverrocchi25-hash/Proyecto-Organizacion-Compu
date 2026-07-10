@@ -1,6 +1,6 @@
 ; =========================================================
 ; PROYECTO ORGANIZACION DEL COMPUTADOR
-; Integrante : Sebastianno Verrocchi
+; Integrantes : Sebastianno Verrocchi, Luis Maduro 
 ; Seccion 002 / NRC: 26009
 ; =========================================================
 
