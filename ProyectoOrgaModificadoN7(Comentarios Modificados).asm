@@ -1,8 +1,6 @@
-; =========================================================
 ; PROYECTO ORGANIZACION DEL COMPUTADOR
 ; Integrantes : Sebastianno Verrocchi, Luis Maduro 
 ; Seccion 002 / NRC: 26009
-; =========================================================
 
 .model small
 .stack 100h
@@ -41,19 +39,17 @@ start:
     mov ax, @data
     mov ds, ax
 
-    ; ---------------------------------------------------------
-    ; 1. Calcular B = -1 * Traspuesta(A)
-    ; ---------------------------------------------------------
-    xor si, si          ; SI = Fila (row) = 0
+    ; Calcular B = -1 * Traspuesta(A)
+    xor si, si          ; SI = Fila = 0
 row_loop_1:
     cmp si, [N]
-    jg end_calc_B       ; CAMBIO: JG en lugar de JGE para incluir N=7
+    jg end_calc_B
     xor di, di          ; DI = Columna (col) = 0
 col_loop_1:
     cmp di, [N]
-    jg end_col_loop_1   ; CAMBIO: JG
+    jg end_col_loop_1
 
-    ; Obtener A[col][row] (Traspuesta)
+    ; Obtener A[col][fila] (Traspuesta)
     ; Índice = (col * (N+1) + row) * 2
     mov ax, di
     mov cx, [N]
@@ -62,10 +58,10 @@ col_loop_1:
     add ax, si
     shl ax, 1           ; Multiplicar por 2 (words)
     mov bx, ax
-    mov ax, A[bx]       ; AX = A[col][row]
+    mov ax, A[bx]       ; AX = A[col][fila]
     neg ax              ; Multiplicar por -1
 
-    ; Guardar en B[row][col]
+    ; Guardar en B[fila][col]
     push ax
     mov ax, si
     mov cx, [N]
@@ -84,9 +80,7 @@ end_col_loop_1:
     jmp row_loop_1
 end_calc_B:
 
-    ; ---------------------------------------------------------
-    ; 2. Imprimir Matriz B y Pausar
-    ; ---------------------------------------------------------
+    ; Imprimir Matriz B y Pausar
     lea dx, msgB
     mov ah, 09h
     int 21h
@@ -120,9 +114,7 @@ print_b_next:
 print_b_done:
     call PAUSE
 
-    ; ---------------------------------------------------------
-    ; 3. Imprimir Matriz A + B y Pausar
-    ; ---------------------------------------------------------
+    ; Imprimir Matriz A + B y Pausar
     lea dx, msgAB
     mov ah, 09h
     int 21h
@@ -158,9 +150,7 @@ print_ab_next:
 print_ab_done:
     call PAUSE
 
-    ; ---------------------------------------------------------
-    ; 4. Imprimir Matriz A + Traspuesta(B) y Pausar
-    ; ---------------------------------------------------------
+    ; Imprimir Matriz A + Traspuesta(B) y Pausar
     lea dx, msgABT
     mov ah, 09h
     int 21h
@@ -184,7 +174,7 @@ print_abt_col:
     mov bx, ax
     mov ax, A[bx]
     
-    ; ÍIndice B[col][row] (Traspuesta de B)
+    ; Índice B[col][fila] (Traspuesta de B)
     push ax
     mov ax, di
     mov cx, [N]
@@ -212,9 +202,9 @@ print_abt_done:
     mov ax, 4c00h
     int 21h
 
-; =========================================================
+
+
 ; PROCEDIMIENTOS AUXILIARES
-; =========================================================
 
 PAUSE PROC
     push ax
